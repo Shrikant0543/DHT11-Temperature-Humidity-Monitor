@@ -18,7 +18,7 @@ An Arduino Uno project that measures temperature and humidity using a DHT11 sens
 - LCD1602 16x2 display
 - 10k potentiometer
 - Breadboard
-- wires
+- Jumper wires
 
 ## Wiring
 
@@ -87,7 +87,17 @@ The same sensor readings are also sent to the Serial Monitor at 9600 baud.
 
 ## Project Photos
 
-Photos of the completed Arduino circuit will be added here.
+### Completed Project
+
+![DHT11 Temperature and Humidity Monitor](images/Main%20image.jpeg)
+
+### Full Circuit
+
+![Arduino Uno, DHT11, LCD1602, and breadboard circuit](images/Full%20Image.jpeg)
+
+### LCD Display
+
+![LCD1602 displaying temperature and humidity readings](images/LCD%20display.jpeg)
 
 ## Future Improvements
 
