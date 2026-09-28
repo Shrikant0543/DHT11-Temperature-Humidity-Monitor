@@ -93,7 +93,5 @@ Photos of the completed Arduino circuit will be added here.
 
 Possible future improvements include:
 
-- Adding a temperature or humidity warning
 - Recording sensor readings over time
 - Adding additional environmental sensors
-- Creating an enclosure for the completed circuit
