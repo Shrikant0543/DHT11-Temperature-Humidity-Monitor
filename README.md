@@ -10,6 +10,7 @@ An Arduino Uno project that measures temperature and humidity using a DHT11 sens
 - Displays live readings on a 16x2 LCD
 - Outputs sensor readings to the Arduino Serial Monitor
 - Updates readings every 5 seconds
+- Logs up to 100 temperature and humidity measurements at 5-second intervals.
 
 ## Components
 
@@ -75,6 +76,21 @@ C:24.8 F:76.6
 
 The same sensor readings are also sent to the Serial Monitor at 9600 baud.
 
+## Data Logging
+
+The Arduino logs up to 100 temperature and humidity measurements at 5-second intervals. Each measurement is sent to the Serial Monitor in CSV format.
+
+Each reading includes:
+- Reading number
+- Time since Arduino startup (milliseconds)
+- Temperature in Celsius (°C)
+- Temperature in Fahrenheit (°F)
+- Relative humidity (%)
+
+A sample dataset containing 100 measurements is available in the `sample_data(1).csv` file in this repository.
+
+After 100 measurements, data logging stops, but the LCD continues displaying live temperature and humidity readings.
+
 ## Running the Project
 
 1. Connect the DHT11 and LCD1602 to the Arduino using the wiring tables above.
@@ -99,9 +115,12 @@ The same sensor readings are also sent to the Serial Monitor at 9600 baud.
 
 ![LCD1602 displaying temperature and humidity readings](images/LCD%20display.jpeg)
 
+
 ## Future Improvements
 
 Possible future improvements include:
 
-- Recording sensor readings over time
 - Adding additional environmental sensors
+- Saving measurements automatically to an SD card
+- Adding wireless monitoring using Wi-Fi or Bluetooth
+- Displaying temperature and humidity trends on a graph
