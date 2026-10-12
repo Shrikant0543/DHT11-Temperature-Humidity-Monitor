@@ -124,3 +124,11 @@ Possible future improvements include:
 - Saving measurements automatically to an SD card
 - Adding wireless monitoring using Wi-Fi or Bluetooth
 - Displaying temperature and humidity trends on a graph
+
+## Limitations
+
+- The DHT11 sensor has limited accuracy compared to more advanced temperature and humidity sensors.
+- The system only measures temperature and humidity in its immediate surroundings.
+- The Arduino logs a maximum of 100 measurements per run.
+- Measurements are sent through the Serial Monitor and must be saved manually to keep a permanent record.
+- The system requires a power source to operate.
