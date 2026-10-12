@@ -1,3 +1,4 @@
+
 #include <DHT.h>
 #include <LiquidCrystal.h>
 
@@ -5,20 +6,23 @@
 #define DHTPIN 7
 #define DHTTYPE DHT11
 
-// Creates the DHT11 sensor
 DHT dht(DHTPIN, DHTTYPE);
 
 // LCD1602 setup
 // Pins: RS, E, D4, D5, D6, D7
 LiquidCrystal lcd(12, 11, 5, 4, 3, 2);
 
+// Data logging settings
+const int MAX_READINGS = 100;
+const unsigned long LOG_INTERVAL = 5000;
+
+int readingCount = 0;
+
 void setup()
 {
   // Starts communication with the Serial Monitor
   Serial.begin(9600);
   delay(500);
-
-  Serial.println("DHT11 Humidity & Temperature Sensor");
 
   // Starts the DHT11 sensor
   dht.begin();
@@ -27,58 +31,70 @@ void setup()
   lcd.begin(16, 2);
 
   delay(1000);
+
+  // CSV column headings
+  Serial.println("Reading,Time_ms,Temperature_C,Temperature_F,Humidity");
 }
 
 void loop()
 {
-  // Reads the current humidity from the DHT11
+  // Reads humidity and temperature
   float humidity = dht.readHumidity();
-
-  // Reads the current temperature in Celsius
   float temperature = dht.readTemperature();
+
+  // Checks for failed sensor readings
+  if (isnan(humidity) || isnan(temperature))
+  {
+    delay(LOG_INTERVAL);
+    return;
+  }
 
   // Converts Celsius to Fahrenheit
   float fahrenheit = (temperature * 9.0 / 5.0) + 32;
 
+  // ---------- DATA LOGGING ----------
 
-  // ---------- SERIAL MONITOR ----------
+  // Saves up to 100 readings to the Serial output
+  if (readingCount < MAX_READINGS)
+  {
+    readingCount++;
 
-  // Displays humidity
-  Serial.print("Current Humidity = ");
-  Serial.print(humidity);
-  Serial.print("%  ");
+    Serial.print(readingCount);
+    Serial.print(",");
 
-  // Displays temperature in Celsius
-  Serial.print("C: ");
-  Serial.print(temperature);
+    Serial.print(millis());
+    Serial.print(",");
 
-  // Displays temperature in Fahrenheit
-  Serial.print("  F: ");
-  Serial.println(fahrenheit);
+    Serial.print(temperature, 1);
+    Serial.print(",");
 
+    Serial.print(fahrenheit, 1);
+    Serial.print(",");
+
+    Serial.println(humidity, 1);
+  }
 
   // ---------- LCD1602 ----------
 
-  // Moves the cursor to the top-left of the LCD
-  lcd.setCursor(0, 0);
-
   // Displays humidity on the first row
+  lcd.setCursor(0, 0);
+  lcd.print("                ");
+  lcd.setCursor(0, 0);
   lcd.print("Humidity: ");
   lcd.print(humidity, 0);
   lcd.print("%");
 
-  // Moves the cursor to the beginning of the second row
+  // Displays Celsius and Fahrenheit on the second row
+  lcd.setCursor(0, 1);
+  lcd.print("                ");
   lcd.setCursor(0, 1);
 
-  // Displays temperature in Celsius
   lcd.print("C:");
   lcd.print(temperature, 1);
 
-  // Displays temperature in Fahrenheit
   lcd.print(" F:");
   lcd.print(fahrenheit, 1);
 
-
-  // Waits 5 seconds before taking another reading
-  delay(5000);
+  // Waits 5 seconds before the next reading
+  delay(LOG_INTERVAL);
 }
